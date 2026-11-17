@@ -26,12 +26,32 @@ A MySQL-based Capstone Project that solves the real-life problem of **double boo
 **ER Diagram:**
 ![ER Diagram](docs/ER_Diagram.png)
 
+Movies: movie_id (PK), title, genre, duration, rating
+Theatres: theatre_id (PK), theatre_name, city
+Shows: show_id (PK), movie_id (FK), theatre_id (FK), show_time, ticket_price
+Seats: seat_id (PK), show_id (FK), seat_no, seat_type, is_booked
+Customers: customer_id (PK), full_name, phone, email
+Bookings: booking_id (PK), customer_id (FK), show_id (FK), seat_id (FK), amount, status
+
+[MOVIES] 1 -----< [SHOWS] >----- 1 [THEATRES]
+              |
+              | 1
+              |
+              v Many
+            [SEATS]
+              |
+              | 1
+              |
+[ CUSTOMERS ] 1 -----< [BOOKINGS]
+
 **Key Relationships:**
-- Movies (1) → Shows (Many)
-- Theatres (1) → Shows (Many)
-- Shows (1) → Seats (Many)
-- Customers (1) → Bookings (Many)
-- Shows (1) → Bookings (Many)
+MOVIES (1) → SHOWS (Many)
+THEATRES (1) → SHOWS (Many)
+SHOWS (1) → SEATS (Many)
+CUSTOMERS (1) → BOOKINGS (Many)
+SHOWS (1) → BOOKINGS (Many)
+BOOKINGS (1) → BOOKING_LOG (Many)
+SHOWS (1) → PRICE_AUDIT (Many)
 
 ### 🚀 How To Run
 1. Open MySQL Workbench
@@ -46,3 +66,30 @@ INSERT INTO bookings (customer_id, show_id, seat_id) VALUES (1, 1, 1);
 
 -- This will FAIL - Seat already booked!
 INSERT INTO bookings (customer_id, show_id, seat_id) VALUES (2, 1, 1);
+
+📁 Project Structure
+movie-ticket-booking-system/
+├── README.md
+├── sql/
+│   ├── 01_create_tables.sql
+│   ├── 02_insert_data.sql
+│   ├── 03_triggers.sql
+│   ├── 04_views.sql
+│   └── 05_transactions.sql
+├── docs/
+│   ├── ER_Diagram.png
+│   └── Capstone_Report.pdf
+└── screenshots/
+    ├── booking_success.png
+    ├── double_booking_error.png
+    └── seats_left_view.png
+
+🎯 What I Learned
+Triggers, Stored Procedures, Transactions, Views
+Foreign Key Constraints, Normalization
+Real-life Database Design
+
+🔮 Future Scope
+Online Payment Integration
+Frontend with Seat Selection UI
+Mobile App
